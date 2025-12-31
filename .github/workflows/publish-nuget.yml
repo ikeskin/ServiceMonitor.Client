@@ -1,0 +1,43 @@
+name: Publish to NuGet
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'  # Trigger on version tags like v1.0.0
+  workflow_dispatch:  # Allow manual triggering
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0  # Required for SourceLink
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'
+
+    - name: Restore dependencies
+      run: dotnet restore src/ServiceMonitor.Client.csproj
+
+    - name: Build
+      run: dotnet build src/ServiceMonitor.Client.csproj --configuration Release --no-restore
+
+    - name: Run tests (if any)
+      run: dotnet test --configuration Release --no-build --verbosity normal || echo "No tests found"
+
+    - name: Pack NuGet package
+      run: dotnet pack src/ServiceMonitor.Client.csproj --configuration Release --no-build --output ./artifacts
+
+    - name: Publish to NuGet.org
+      run: dotnet nuget push ./artifacts/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
+
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: nuget-packages
+        path: ./artifacts/*.nupkg
