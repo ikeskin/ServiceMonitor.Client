@@ -4,13 +4,41 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+
+    <!-- NuGet Package Metadata -->
+    <PackageId>ServiceMonitor.Client</PackageId>
+    <Version>1.0.0</Version>
+    <Authors>İbrahim Keskin</Authors>
+    <Company>ServiceMonitor</Company>
+    <Description>A .NET client library for integrating services with ServiceMonitor Dashboard. Provides automatic service registration, heartbeat monitoring, and deployment tracking with support for Azure DevOps CI/CD metadata.</Description>
+    <PackageTags>monitoring;service-monitor;heartbeat;health-check;observability;devops;azure-devops;microservices</PackageTags>
+    <PackageProjectUrl>https://github.com/ikeskin/ServiceMonitor.Client</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/ikeskin/ServiceMonitor.Client</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageReleaseNotes>Initial release with service registration and heartbeat functionality.</PackageReleaseNotes>
+
+    <!-- Build Settings -->
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="../README.md" Pack="true" PackagePath="/" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Hosting.Server.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="8.0.0" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />
   </ItemGroup>
 
 </Project>
